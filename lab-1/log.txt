@@ -1,0 +1,3 @@
+[2026-03-31] User: can you make it so everything we talk about gets logged into the BindingOfIsaacCheatSheetApp into the root folder in the folder lab-1 in the file log.txt
+
+[2026-03-31] GitHub Copilot: I've set up the logging as requested. The log.txt file has been created in the lab-1 folder within the BindingOfIsaacCheatSheetApp root directory. From now on, our conversations will be logged here.
