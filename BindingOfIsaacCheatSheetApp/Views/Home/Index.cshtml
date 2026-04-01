@@ -1,8 +1,34 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Start";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<section class="isaac-start-screen" aria-label="Main menu">
+    <div class="isaac-menu-sheet" role="navigation" aria-label="Start navigation">
+        <span class="sheet-pin pin-left" aria-hidden="true"></span>
+        <span class="sheet-pin pin-right" aria-hidden="true"></span>
+
+        <ul class="menu-items">
+            <li>
+                <button type="button" class="menu-item is-selected">New Run</button>
+            </li>
+            <li>
+                <button type="button" class="menu-item is-muted" disabled>Continue</button>
+            </li>
+            <li>
+                <button type="button" class="menu-item">Challenges</button>
+            </li>
+            <li>
+                <button type="button" class="menu-item">Stats</button>
+            </li>
+            <li>
+                <button type="button" class="menu-item">Options</button>
+            </li>
+        </ul>
+    </div>
+
+    <aside class="daily-note" aria-hidden="true">
+        <p>Press Tab<br />for<br />Daily Challenge</p>
+    </aside>
+
+    <div class="scrap-paper" aria-hidden="true"></div>
+</section>

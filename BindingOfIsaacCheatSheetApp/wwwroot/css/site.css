@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Permanent+Marker&display=swap');
+
 html {
   font-size: 14px;
 }
@@ -21,6 +23,10 @@ body {
   margin-bottom: 60px;
 }
 
+body.start-screen-body {
+  margin: 0;
+}
+
 .form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
   color: var(--bs-secondary-color);
   text-align: end;
@@ -28,4 +34,186 @@ body {
 
 .form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
   text-align: start;
+}
+
+.isaac-start-screen {
+  position: relative;
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 15% 22%, rgba(120, 120, 120, 0.1) 0 28px, transparent 29px),
+    radial-gradient(circle at 86% 16%, rgba(80, 80, 80, 0.08) 0 24px, transparent 25px),
+    radial-gradient(circle at 68% 80%, rgba(90, 90, 90, 0.08) 0 18px, transparent 19px),
+    linear-gradient(165deg, #d8d4d4 0%, #cbc5c5 48%, #bcb3b3 100%);
+}
+
+.isaac-start-screen::before,
+.isaac-start-screen::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.isaac-start-screen::before {
+  background-image:
+    radial-gradient(rgba(40, 40, 40, 0.12) 0.8px, transparent 0.8px),
+    radial-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+  background-size: 5px 5px, 13px 13px;
+  opacity: 0.25;
+}
+
+.isaac-start-screen::after {
+  box-shadow: inset 0 0 140px rgba(30, 22, 22, 0.35);
+}
+
+.isaac-menu-sheet {
+  position: relative;
+  width: min(420px, 86vw);
+  padding: 48px 40px 36px;
+  background: linear-gradient(160deg, #f3eeee 0%, #ebe5e5 85%);
+  border: 2px solid rgba(70, 66, 66, 0.35);
+  border-radius: 22px 26px 16px 20px / 14px 18px 20px 22px;
+  filter: drop-shadow(0 8px 8px rgba(45, 37, 37, 0.28));
+  transform: rotate(-1deg);
+  animation: sheet-drop 700ms cubic-bezier(0.2, 0.9, 0.2, 1) both;
+}
+
+.sheet-pin {
+  position: absolute;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 38% 34%, #e8e8e8 0 34%, #8f8f8f 35% 60%, #5f5f5f 61% 100%);
+  border: 2px solid #1f1f1f;
+  box-shadow: 0 3px 0 rgba(20, 20, 20, 0.3);
+  top: -16px;
+}
+
+.pin-left {
+  left: 52px;
+}
+
+.pin-right {
+  right: 56px;
+}
+
+.menu-items {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+
+.menu-item {
+  width: 100%;
+  text-align: left;
+  border: 0;
+  background: transparent;
+  font-family: "Permanent Marker", "Patrick Hand", "Segoe Print", cursive;
+  font-size: clamp(2rem, 5.2vw, 3rem);
+  line-height: 1;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #282124;
+  transition: transform 120ms ease, color 120ms ease;
+}
+
+.menu-item.is-selected::before {
+  content: "\25B6";
+  margin-right: 12px;
+  font-size: 0.8em;
+  vertical-align: baseline;
+}
+
+.menu-item:hover:not(:disabled),
+.menu-item:focus-visible:not(:disabled) {
+  color: #070707;
+  transform: translateX(5px);
+  outline: none;
+}
+
+.menu-item.is-muted,
+.menu-item:disabled {
+  color: #a8a0a0;
+  cursor: not-allowed;
+}
+
+.daily-note {
+  position: absolute;
+  right: max(4vw, 28px);
+  top: clamp(20px, 6vh, 52px);
+  padding: 16px 22px;
+  background: linear-gradient(155deg, #f5f0ef 0%, #d8d0d0 100%);
+  border: 2px solid rgba(55, 50, 50, 0.45);
+  border-radius: 10px 14px 9px 13px;
+  transform: rotate(7deg);
+  box-shadow: 0 8px 0 rgba(58, 53, 53, 0.25);
+  animation: note-float 3.8s ease-in-out infinite;
+}
+
+.daily-note p {
+  margin: 0;
+  font-family: "Permanent Marker", "Patrick Hand", "Segoe Print", cursive;
+  text-transform: uppercase;
+  font-size: clamp(1rem, 2vw, 1.7rem);
+  line-height: 1.12;
+  color: #171717;
+}
+
+.scrap-paper {
+  position: absolute;
+  width: clamp(90px, 12vw, 175px);
+  height: clamp(130px, 19vh, 220px);
+  right: clamp(14px, 9vw, 170px);
+  bottom: clamp(8px, 5vh, 30px);
+  background: linear-gradient(165deg, #ddd0c4 0%, #ccbcae 100%);
+  border: 2px solid rgba(95, 84, 76, 0.45);
+  border-radius: 4px 2px 8px 3px;
+  transform: rotate(8deg);
+  box-shadow: inset 0 0 18px rgba(70, 52, 39, 0.16);
+}
+
+@keyframes sheet-drop {
+  from {
+    opacity: 0;
+    transform: translateY(-22px) rotate(-2.8deg) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) rotate(-1deg) scale(1);
+  }
+}
+
+@keyframes note-float {
+  0% {
+    transform: translateY(0) rotate(7deg);
+  }
+  50% {
+    transform: translateY(-3px) rotate(7.8deg);
+  }
+  100% {
+    transform: translateY(0) rotate(7deg);
+  }
+}
+
+@media (max-width: 768px) {
+  .isaac-menu-sheet {
+    width: min(360px, 88vw);
+    padding: 46px 28px 30px;
+  }
+
+  .daily-note {
+    right: 12px;
+    top: 14px;
+    padding: 12px 14px;
+  }
+
+  .scrap-paper {
+    right: 10px;
+    bottom: 10px;
+  }
 }
