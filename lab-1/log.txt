@@ -1,5 +1,5 @@
-
-I’ll inspect the current home page view and styling files first, then I’ll restyle the start screen to match the paper-note look from your reference image.
+Q:Make the statring page in this style.
+A: I’ll inspect the current home page view and styling files first, then I’ll restyle the start screen to match the paper-note look from your reference image.
 
 I found the expected file names, but I still need to read the actual project files from your folder path before editing; next I’ll open the current view and stylesheet content directly.
 
@@ -21,3 +21,58 @@ Validation:
 
 Built successfully with dotnet build (no compile errors)
 If you want, I can do one more pass to make the menu items actually navigate to specific pages (New Run, Challenges, Stats, Options) instead of acting as visual buttons.
+
+Q: make it so ActiveEffect can be null and generate ToString
+
+A:Done. I updated Active Item.cs to:
+•	make ActiveEffect nullable (string?)
+•	update the constructor to accept string? activeEffect and assign it
+•	add an overridden ToString() that prints all key fields and shows "None" when ActiveEffect is null
+The build step was canceled on your side, so please run a manual build when ready.
+
+Q:explain how to input static CheatSheets into array
+
+A:Use the static fields as values when creating the array.
+In CheatSheet.cs, define each static CheatSheet, then build one static array from them:
+Key point: array entries are just references to the static objects you already created.
+Also ensure the class and array initializer are properly closed with }; and }.
+
+Q:Key point: array entries are just references to the static objects you already created.
+Also ensure the class and array initializer are properly closed with }; and }.
+
+A:Good question. Right now CheatSheet takes (Character, string), so this fails:
+new CheatSheet(new List<Pickup> { })
+because the first argument is List<Pickup>, not Character.
+Step by step
+1.	Add the collection namespace in CheatSheet.cs: using System.Collections.Generic;
+2.	Add a property to hold pickups: List<Pickup> Pickups { get; set; }
+3.	Add a second constructor (overload) for pickup-based cheatsheets: public CheatSheet(List<Pickup> pickups, string description)
+4.	In that constructor, assign Pickups and Description.
+5.	Create one static list containing all coin pickups:
+•	penny
+•	nickel
+•	dime
+•	doublePenny
+•	goldenPenny
+•	luckyPenny
+6.	Pass that list as the first argument: new CheatSheet(coinPickups, "Coins reference...");
+7.	Finish the line with ; (your current coinsCheatSheet line is missing it).
+---
+Minimal example for the new coin part:
+If you want, I can apply these edits directly in CheatSheet.cs for you.
+
+Q: why can you use only new() to make a list
+
+A: ecause C# can infer the type from the left side.
+When you write:
+public static List<Pickup> coinPickups = new() { ... };
+the compiler already knows coinPickups is List<Pickup>, so new() is treated as:
+new List<Pickup>()
+This is called target-typed new.
+You can use new() only when the target type is clear, for example:
+•	variable declaration with explicit type
+•	field/property with explicit type
+•	method argument where parameter type is known
+You cannot use new() if the compiler cannot figure out the type.
+Example:
+var x = new(); ❌ (no target type)

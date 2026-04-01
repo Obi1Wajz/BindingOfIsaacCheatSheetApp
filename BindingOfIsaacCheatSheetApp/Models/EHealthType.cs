@@ -4,7 +4,8 @@ namespace BindingOfIsaacCheatSheetApp.Models
 {
     public enum EHealthType
     {
-        HeartContainer,
+        All,
+        RedHearts,
         SoulHearts,
         SkeletonHearts,
         NoHealth
