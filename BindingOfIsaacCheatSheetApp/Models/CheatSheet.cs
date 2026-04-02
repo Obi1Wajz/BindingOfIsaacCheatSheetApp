@@ -4,7 +4,7 @@ namespace BindingOfIsaacCheatSheetApp.Models;
 
 public class CheatSheet
 {
-    Object piece { get; set; }
+    Object Piece { get; set; }
     string Description { get; set; }
     public CheatSheet(Object piece, string description)
     {
@@ -41,5 +41,25 @@ public class CheatSheet
     public static CheatSheet coinsCheatSheet =
         new CheatSheet(coinPickups, "All coin pickups and what they do:");
 
-    public static CheatSheet BookOfBelialCheatSheet = new(ActiveItem.bookOfBelial, "It is recomended to use it near death or to wait until you enter the boss room");
+    public static CheatSheet bookOfBelialCheatSheet = new(ActiveItem.bookOfBelial, "It is recomended to use it near death or to wait until you enter the boss room");
+    public static CheatSheet D6CheatSheet = new(ActiveItem.D6, "It is best used in room pools with better items, Devil Deal, Angel Deal, Secret Room, Ultra Secret Room, " +
+        "so try to spawn in items using beggers, devil beggers, blood donation machines in those rooms and reroll them.");
+    public static CheatSheet eternalD6CheatSheet = new(ActiveItem.eternalD6, "It is best used in room pools with better items, Devil Deal, Angel Deal, Secret Room, Ultra Secret Room, " +
+        "so try to spawn in items using beggers, devil beggers, blood donation machines in those rooms and reroll them. Be careful when using it, because " +
+        "it has a chance to delete the item instead of rerolling it.");
+    public static CheatSheet yumHeartCheatSheet = new(ActiveItem.yumHeart, "With yum heart you will rarely be at low health, so try abusing devl beggers, " +
+        "sacrifice rooms and blood donation machines.");
+    public static CheatSheet thePoopCheatSheet = new(ActiveItem.thePoop, "The Poop can be used to create obstacles for enemies, block projectiles, " +
+        "and even create cover for yourself. It can also be used to access secret rooms by placing it on a specific tile.");
+    public static CheatSheet razorBladeCheatSheet = new(ActiveItem.razorBlade, "Razor Blade is best used on Eve, since she benefits being at low healt, " +
+        "also you can use it to enter curse rooms without losing soul hearts if you have any.");
+    public static CheatSheet[] activeItemCheatSheets = new CheatSheet[]
+    {
+        bookOfBelialCheatSheet,
+        D6CheatSheet,
+        eternalD6CheatSheet,
+        yumHeartCheatSheet,
+        thePoopCheatSheet,
+        razorBladeCheatSheet
+    };
 }

@@ -1,5 +1,7 @@
 ﻿@{
     ViewData["Title"] = "Start";
+    var characterCheatSheets = ViewData["CharacterCheatSheets"] as BindingOfIsaacCheatSheetApp.Models.CheatSheet[];
+    var activeItemCheatSheets = ViewData["ActiveItemCheatSheets"] as BindingOfIsaacCheatSheetApp.Models.CheatSheet[];
 }
 
 <section class="isaac-start-screen" aria-label="Main menu">
@@ -7,28 +9,202 @@
         <span class="sheet-pin pin-left" aria-hidden="true"></span>
         <span class="sheet-pin pin-right" aria-hidden="true"></span>
 
-        <ul class="menu-items">
-            <li>
-                <button type="button" class="menu-item is-selected">New Run</button>
-            </li>
-            <li>
-                <button type="button" class="menu-item is-muted" disabled>Continue</button>
-            </li>
-            <li>
-                <button type="button" class="menu-item">Challenges</button>
-            </li>
-            <li>
-                <button type="button" class="menu-item">Stats</button>
-            </li>
-            <li>
-                <button type="button" class="menu-item">Options</button>
-            </li>
-        </ul>
+        <div id="main-menu" class="menu-container">
+            <ul class="menu-items">
+                <li>
+                    <button type="button" class="menu-item is-selected" onclick="showCharacterOptions()">Character CheatSheet</button>
+                </li>
+                <li>
+                    <button type="button" class="menu-item" onclick="showCoinsCheatSheet()">Coins CheatSheet</button>
+                </li>
+                <li>
+                    <button type="button" class="menu-item" onclick="showActiveItemOptions()">Active Items CheatSheet</button>
+                </li>
+            </ul>
+        </div>
+
+        <div id="character-options" class="menu-container" style="display: none;">
+            <h3>Select a Character</h3>
+            <ul class="menu-items">
+                <li><button type="button" class="menu-item" onclick="showCharacterCheatSheet(0)">Isaac</button></li>
+                <li><button type="button" class="menu-item" onclick="showCharacterCheatSheet(1)">Magdalene</button></li>
+                <li><button type="button" class="menu-item" onclick="showCharacterCheatSheet(2)">Cain</button></li>
+                <li><button type="button" class="menu-item" onclick="showCharacterCheatSheet(3)">Judas</button></li>
+                <li><button type="button" class="menu-item" onclick="showCharacterCheatSheet(4)">Blue Baby</button></li>
+                <li><button type="button" class="menu-item" onclick="showCharacterCheatSheet(5)">Eve</button></li>
+            </ul>
+            <button type="button" class="back-button menu-button" onclick="returnToMenu()">Return to Main Menu</button>
+        </div>
+
+        <div id="active-item-options" class="menu-container" style="display: none;">
+            <h3>Select an Active Item</h3>
+            <ul class="menu-items">
+                <li><button type="button" class="menu-item" onclick="showActiveItemCheatSheet(0)">Book of Belial</button></li>
+                <li><button type="button" class="menu-item" onclick="showActiveItemCheatSheet(1)">D6</button></li>
+                <li><button type="button" class="menu-item" onclick="showActiveItemCheatSheet(2)">Eternal D6</button></li>
+                <li><button type="button" class="menu-item" onclick="showActiveItemCheatSheet(3)">Yum Heart</button></li>
+                <li><button type="button" class="menu-item" onclick="showActiveItemCheatSheet(4)">The Poop</button></li>
+                <li><button type="button" class="menu-item" onclick="showActiveItemCheatSheet(5)">Razor Blade</button></li>
+            </ul>
+            <button type="button" class="back-button menu-button" onclick="returnToMenu()">Return to Main Menu</button>
+        </div>
     </div>
 
     <aside class="daily-note" aria-hidden="true">
-        <p>Press Tab<br />for<br />Daily Challenge</p>
+        <p>Daily Seed:<br />@ViewData["DailySeed"]</p>
     </aside>
 
     <div class="scrap-paper" aria-hidden="true"></div>
 </section>
+
+<div id="cheatsheet-content" class="cheatsheet-display" style="display: none;">
+    <!-- Content will be loaded here -->
+</div>
+
+<div id="back-button-container" style="display: none; margin-top: 20px;">
+    <button type="button" class="back-button" onclick="returnToMenu()">Return to Main Menu</button>
+</div>
+
+<script>
+    function showCharacterOptions() {
+        document.getElementById('main-menu').style.display = 'none';
+        document.getElementById('character-options').style.display = 'block';
+    }
+
+    function showActiveItemOptions() {
+        document.getElementById('main-menu').style.display = 'none';
+        document.getElementById('active-item-options').style.display = 'block';
+    }
+
+    function showCoinsCheatSheet() {
+        document.getElementById('main-menu').style.display = 'none';
+        document.getElementById('character-options').style.display = 'none';
+        document.getElementById('active-item-options').style.display = 'none';
+        document.getElementById('cheatsheet-content').style.display = 'block';
+        document.getElementById('back-button-container').style.display = 'block';
+        
+        const content = document.getElementById('cheatsheet-content');
+        content.innerHTML = `
+            <h2>Coins CheatSheet</h2>
+            <div class="coin-list">
+                <p><strong>Penny:</strong> Adds 1 coin to your total.</p>
+                <p><strong>Nickel:</strong> Adds 5 coins to your total.</p>
+                <p><strong>Dime:</strong> Adds 10 coins to your total.</p>
+                <p><strong>Double Penny:</strong> Adds 2 coins to your total.</p>
+                <p><strong>Golden Penny:</strong> Adds 1 coin to your total, has chance to respawn in a random spot in room.</p>
+                <p><strong>Lucky Penny:</strong> Adds 1 coin to your total, adds +1 luck stat boost.</p>
+            </div>
+        `;
+    }
+
+    function showCharacterCheatSheet(index) {
+        const cheatSheets = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(new[] {
+            new { Name = "Isaac", Description = "Isaac is the first character you start with, he has balanced stats and a powerful active item, the D6, that allows you to reroll item pedestals in the current room, giving you a chance to get better items." },
+            new { Name = "Magdalene", Description = "Magdalene has more health than other characters, but her active item, Yum Heart, is not as good as other characters. However, she can use it to heal herself and keep her health up." },
+            new { Name = "Cain", Description = "Cain has a lower health than other characters, but his starting item, Lucky Foot, gives him a luck boost and converts bad pills into good pills, which can be very useful in certain situations." },
+            new { Name = "Judas", Description = "Judas has the lowest health of all characters, but his starting item, Book of Belial, grants him a damage boost for the current room, making him a strong choice for players who want to focus on offense." },
+            new { Name = "Blue Baby", Description = "Blue Baby has no red heart containers and starts with 3 soul hearts, making him more fragile than other characters. However, his active item, The Poop, can be used to create obstacles for enemies and can be useful in certain situations." },
+            new { Name = "Eve", Description = "Eve has a unique playstyle that revolves around taking damage to activate her powerful items. Her starting items, Whore of Babylon, Dead Bird, and Razor Blade, all grant her damage boosts when she is at low health, making her a strong choice for players who want to take risks and play aggressively." }
+        }));
+        
+        document.getElementById('main-menu').style.display = 'none';
+        document.getElementById('character-options').style.display = 'none';
+        document.getElementById('active-item-options').style.display = 'none';
+        document.getElementById('cheatsheet-content').style.display = 'block';
+        document.getElementById('back-button-container').style.display = 'block';
+        
+        const content = document.getElementById('cheatsheet-content');
+        content.innerHTML = `
+            <h2>${cheatSheets[index].Name} CheatSheet</h2>
+            <p>${cheatSheets[index].Description}</p>
+        `;
+    }
+
+    function showActiveItemCheatSheet(index) {
+        const cheatSheets = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(new[] {
+            new { Name = "Book of Belial", Description = "It is recomended to use it near death or to wait until you enter the boss room" },
+            new { Name = "D6", Description = "It is best used in room pools with better items, Devil Deal, Angel Deal, Secret Room, Ultra Secret Room, so try to spawn in items using beggers, devil beggers, blood donation machines in those rooms and reroll them." },
+            new { Name = "Eternal D6", Description = "It is best used in room pools with better items, Devil Deal, Angel Deal, Secret Room, Ultra Secret Room, so try to spawn in items using beggers, devil beggers, blood donation machines in those rooms and reroll them. Be careful when using it, because it has a chance to delete the item instead of rerolling it." },
+            new { Name = "Yum Heart", Description = "With yum heart you will rarely be at low health, so try abusing devl beggers, sacrifice rooms and blood donation machines." },
+            new { Name = "The Poop", Description = "The Poop can be used to create obstacles for enemies, block projectiles, and even create cover for yourself. It can also be used to access secret rooms by placing it on a specific tile." },
+            new { Name = "Razor Blade", Description = "Razor Blade is best used on Eve, since she benefits being at low healt, also you can use it to enter curse rooms without losing soul hearts if you have any." }
+        }));
+        
+        document.getElementById('main-menu').style.display = 'none';
+        document.getElementById('active-item-options').style.display = 'none';
+        document.getElementById('cheatsheet-content').style.display = 'block';
+        document.getElementById('back-button-container').style.display = 'block';
+        
+        const content = document.getElementById('cheatsheet-content');
+        content.innerHTML = `
+            <h2>${cheatSheets[index].Name} CheatSheet</h2>
+            <p>${cheatSheets[index].Description}</p>
+        `;
+    }
+
+    function returnToMenu() {
+        document.getElementById('main-menu').style.display = 'block';
+        document.getElementById('character-options').style.display = 'none';
+        document.getElementById('active-item-options').style.display = 'none';
+        document.getElementById('cheatsheet-content').style.display = 'none';
+        document.getElementById('back-button-container').style.display = 'none';
+    }
+</script>
+
+<style>
+    .daily-seed-display {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        font-size: 16px;
+        background-color: rgba(0, 0, 0, 0.7);
+        color: #fff;
+        padding: 8px 12px;
+        border-radius: 4px;
+        z-index: 100;
+    }
+
+    .menu-container {
+        text-align: center;
+    }
+
+    .menu-container h3 {
+        color: #fff;
+        margin-bottom: 20px;
+    }
+
+    .menu-button {
+        margin-top: 20px;
+    }
+
+    .cheatsheet-display {
+        margin-top: 20px;
+        padding: 20px;
+        background-color: rgba(0, 0, 0, 0.8);
+        color: #fff;
+        border-radius: 4px;
+    }
+
+    .coin-list {
+        margin-top: 15px;
+    }
+
+    .coin-list p {
+        margin: 10px 0;
+        line-height: 1.6;
+    }
+
+    .back-button {
+        padding: 10px 20px;
+        background-color: #666;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 14px;
+    }
+
+    .back-button:hover {
+        background-color: #888;
+    }
+</style>

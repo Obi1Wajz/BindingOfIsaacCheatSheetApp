@@ -8,6 +8,10 @@ namespace BindingOfIsaacCheatSheetApp.Controllers
     {
         public IActionResult Index()
         {
+            ViewData["DailySeed"] = DailySeedGenerator.GenerateDailySeed();
+            ViewData["CharacterCheatSheets"] = CheatSheet.characterCheatSheets;
+            ViewData["ActiveItemCheatSheets"] = CheatSheet.activeItemCheatSheets;
+            ViewData["CoinsCheatSheet"] = CheatSheet.coinsCheatSheet;
             return View();
         }
 
